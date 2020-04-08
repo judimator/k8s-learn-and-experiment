@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+    php:
+        ima: ./docker/php-fpm
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./app:/var/www/app:cached
+    nginx:
+        build: ./docker/nginx
+        ports:
+            - "80:80"
+        volumes:
+            - ./app:/var/www/app:cached

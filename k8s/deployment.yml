@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      service: php-nginx-deployment
+  template:
+    metadata:
+      labels:
+        service: php-nginx-deployment
+    spec:
+      containers:
+        - name: php-fpm
+          image: judimator/symfony-k8s-php-fpm:latest
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - name: xdebug-config-volume
+              mountPath: /etc/php7/conf.d/xdebug.ini
+              subPath: xdebug.ini
+            - name: symfony-config-volume
+              mountPath: /etc/php7/conf.d/symfony.ini
+              subPath: symfony.ini
+            - name: symfony-config-volume
+              mountPath: /etc/php7/cli/conf.d/symfony.ini
+              subPath: symfony.ini
+            - name: symfony-pool-config-volume
+              mountPath: /etc/php7/php-fpm.d/symfony.pool.conf
+              subPath: symfony.pool.conf
+        - name: nginx
+          image: judimator/symfony-k8s-nginx:latest
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: nginx-volume
+              mountPath: /etc/nginx/conf.d
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: symfony-config-volume
+          configMap:
+            name: symfony.ini
+        - name: xdebug-config-volume
+          configMap:
+            name: xdebug.ini
+        - name: symfony-pool-config-volume
+          configMap:
+            name: symfony.pool.conf
+        - name: nginx-volume
+          configMap:
+            name: nginx
+        - name: nginx-config-volume
+          configMap:
+            name: nginx.conf
