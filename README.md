@@ -16,6 +16,11 @@
     ```
 
 ### K8s
+* Create `Secret`
+    ```bash
+    $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $(KEY) -out $(CERT) -subj "/CN=nginxsvc/O=nginxsvc"
+    $ kubectl create secret tls nginx-crt --key $(KEY) --cert $(CERT)
+    ```
 * Create `ConfigMap`:
     ```bash
     $ kubectl create configmap nginx --from-file=k8s/config/nginx/conf.d
@@ -26,9 +31,9 @@
     ```
 * Apply available k8 controllers:
     ```bash
-    $ kubectl apply -f deployment.yml
-    $ kubectl apply -f service.yml
-    $ kubectl apply -f ingress.yml
+    $ kubectl apply -f k8s/deployment.yml
+    $ kubectl apply -f k8s/service.yml
+    $ kubectl apply -f k8s/ingress.yml
     ```
 * Verify the IP address is set:
     ```bash

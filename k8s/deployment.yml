@@ -35,13 +35,25 @@ spec:
           image: judimator/symfony-k8s-nginx:latest
           ports:
             - containerPort: 8080
+            - containerPort: 8443
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
           volumeMounts:
+            - name: nginx-crt-volume
+              mountPath: /etc/nginx/ssl
             - name: nginx-volume
               mountPath: /etc/nginx/conf.d
             - name: nginx-config-volume
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
       volumes:
+        - name: nginx-crt-volume
+          secret:
+            secretName: nginx-crt
         - name: symfony-config-volume
           configMap:
             name: symfony.ini
