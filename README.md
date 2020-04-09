@@ -11,7 +11,7 @@
     ```
 
 ### K8s
-* Create `ConfigMap`
+* Create `ConfigMap`:
     ```bash
     $ kubectl create configmap nginx --from-file=k8s/config/nginx/conf.d
     $ kubectl create configmap symfony.ini --from-file=k8s/config/php-fpm/conf.d/symfony.ini
@@ -19,11 +19,19 @@
     $ kubectl create configmap symfony.pool.conf --from-file=k8s/config/php-fpm/php-fpm.d/symfony.pool.conf
     $ kubectl create configmap nginx.conf --from-file=k8s/config/nginx/nginx.conf
     ```
-* Apply available k8 controllers
+* Apply available k8 controllers:
     ```bash
     $ kubectl apply -f deployment.yml
     $ kubectl apply -f service.yml
     $ kubectl apply -f ingress.yml
+    ```
+* Verify the IP address is set:
+    ```bash
+    $ kubectl get ingress
+    ```
+* Add the following line to the bottom of the **/etc/hosts** file:
+    ```text
+     YOUR_ADDRESS symfony.local
     ```
 * Open  **http://symfony.local**
 * Enjoy!

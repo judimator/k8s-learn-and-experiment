@@ -17,7 +17,7 @@ spec:
         - name: php-fpm
           image: judimator/symfony-k8s-php-fpm:latest
           ports:
-            - containerPort: 9000
+            - containerPort: 9001
           volumeMounts:
             - name: xdebug-config-volume
               mountPath: /etc/php7/conf.d/xdebug.ini
