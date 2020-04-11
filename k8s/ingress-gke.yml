@@ -1,0 +1,9 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: php-nginx-ingress
+spec:
+  backend:
+    serviceName: php-nginx-service
+    servicePort: 80
