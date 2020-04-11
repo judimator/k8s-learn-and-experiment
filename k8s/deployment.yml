@@ -19,9 +19,6 @@ spec:
           ports:
             - containerPort: 9001
           volumeMounts:
-            - name: xdebug-config-volume
-              mountPath: /etc/php7/conf.d/xdebug.ini
-              subPath: xdebug.ini
             - name: symfony-config-volume
               mountPath: /etc/php7/conf.d/symfony.ini
               subPath: symfony.ini
@@ -36,12 +33,6 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 8443
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8080
-            initialDelaySeconds: 30
-            timeoutSeconds: 1
           volumeMounts:
             - name: nginx-crt-volume
               mountPath: /etc/nginx/ssl
@@ -57,9 +48,6 @@ spec:
         - name: symfony-config-volume
           configMap:
             name: symfony.ini
-        - name: xdebug-config-volume
-          configMap:
-            name: xdebug.ini
         - name: symfony-pool-config-volume
           configMap:
             name: symfony.pool.conf

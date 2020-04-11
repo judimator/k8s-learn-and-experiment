@@ -17,6 +17,7 @@
 
 ### K8s
 * Create `Secret`
+    Please note, the names of key and certificate should be "tls", i.e. tls.crt and tls.key
     ```bash
     $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout $(KEY) -out $(CERT) -subj "/CN=nginxsvc/O=nginxsvc"
     $ kubectl create secret tls nginx-crt --key $(KEY) --cert $(CERT)
@@ -25,7 +26,6 @@
     ```bash
     $ kubectl create configmap nginx --from-file=k8s/config/nginx/conf.d
     $ kubectl create configmap symfony.ini --from-file=k8s/config/php-fpm/conf.d/symfony.ini
-    $ kubectl create configmap xdebug.ini --from-file=k8s/config/php-fpm/conf.d/xdebug.ini
     $ kubectl create configmap symfony.pool.conf --from-file=k8s/config/php-fpm/php-fpm.d/symfony.pool.conf
     $ kubectl create configmap nginx.conf --from-file=k8s/config/nginx/nginx.conf
     ```
