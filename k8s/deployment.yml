@@ -41,6 +41,12 @@ spec:
             - name: nginx-config-volume
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
+          readinessProbe:
+            httpGet:
+              path: /healthcheck/readiness-probe
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
         - name: nginx-crt-volume
           secret:

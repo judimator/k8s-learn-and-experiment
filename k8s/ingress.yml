@@ -5,7 +5,7 @@ metadata:
   name: php-nginx-ingress
 spec:
   rules:
-    - host: symfony.local
+    - host: symfony.localhost
       http:
         paths:
           - backend:

@@ -14,6 +14,8 @@
     ```bash
     $ docker-compose up -d
     ```
+* Open  **http://symfony.local**
+* Enjoy!
 
 ### K8s
 * Create `Secret`
@@ -41,7 +43,7 @@
     ```
 * Add the following line to the bottom of the **/etc/hosts** file:
     ```text
-     YOUR_ADDRESS symfony.local
+     YOUR_ADDRESS symfony.localhost
     ```
 * Open  **http://symfony.local**
 * Enjoy!
