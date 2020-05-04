@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgre-statefulset
+spec:
+  serviceName: postgre-statefulset
+  replicas: 1
+  selector:
+    matchLabels:
+      service: postgre-statefulset
+  template:
+    metadata:
+      labels:
+        service: postgre-statefulset
+    spec:
+      containers:
+        - name: postgre
+          image: judimator/symfony-k8s-postgre:latest
+          envFrom:
+            - secretRef:
+                name: db-secrets
+          ports:
+            - containerPort: 5432
+              name: postgredb
+          volumeMounts:
+            - name: postgredb
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgredb
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

@@ -14,3 +14,15 @@ spec:
       targetPort: 8443
   selector:
     service: php-nginx-deployment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgre-service
+spec:
+  ports:
+    - name: postgres
+      port: 5432
+  clusterIP: None
+  selector:
+    service: postgre-statefulset

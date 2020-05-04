@@ -16,8 +16,13 @@ spec:
       containers:
         - name: php-fpm
           image: judimator/symfony-k8s-php-fpm:latest
+          envFrom:
+            - secretRef:
+                name: app-secrets
+            - configMapRef:
+                name: app-config
           ports:
-            - containerPort: 9001
+            - containerPort: 9000
           volumeMounts:
             - name: symfony-config-volume
               mountPath: /etc/php7/conf.d/symfony.ini
