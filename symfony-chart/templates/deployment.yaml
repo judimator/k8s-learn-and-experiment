@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      service: php-nginx-deployment
+  template:
+    metadata:
+      labels:
+        service: php-nginx-deployment
+    spec:
+      containers:
+        - name: php-fpm
+          image: judimator/symfony-k8s-php-fpm:latest
+          envFrom:
+            - secretRef:
+                name: app-secrets
+            - configMapRef:
+                name: app-config
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - name: symfony-config-volume
+              mountPath: /etc/php7/conf.d/symfony.ini
+              subPath: symfony.ini
+            - name: symfony-config-volume
+              mountPath: /etc/php7/cli/conf.d/symfony.ini
+              subPath: symfony.ini
+            - name: symfony-pool-config-volume
+              mountPath: /etc/php7/php-fpm.d/symfony.pool.conf
+              subPath: symfony.pool.conf
+        - name: nginx
+          image: judimator/symfony-k8s-nginx:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 8443
+          volumeMounts:
+            - name: nginx-crt-volume
+              mountPath: /etc/nginx/ssl
+            - name: nginx-volume
+              mountPath: /etc/nginx/conf.d
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+          readinessProbe:
+            httpGet:
+              path: /healthcheck/readiness-probe
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: nginx-crt-volume
+          secret:
+            secretName: nginx-crt
+        - name: symfony-config-volume
+          configMap:
+            name: symfony.ini
+        - name: symfony-pool-config-volume
+          configMap:
+            name: symfony.pool.conf
+        - name: nginx-volume
+          configMap:
+            name: nginx
+        - name: nginx-config-volume
+          configMap:
+            name: nginx.conf

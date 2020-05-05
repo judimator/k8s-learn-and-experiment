@@ -35,10 +35,10 @@
     ```
 * Apply available k8 controllers:
     ```bash
-    $ kubectl apply -f k8s/deployment.yml
-    $ kubectl apply -f k8s/service.yml
-    $ kubectl apply -f k8s/ingress.yml
-    $ kubectl apply -f k8s/statefulset.yml
+    $ kubectl apply -f k8s/deployment.yaml
+    $ kubectl apply -f k8s/service.yaml
+    $ kubectl apply -f k8s/ingress.yaml
+    $ kubectl apply -f k8s/statefulset.yaml
     ```
 * Verify the IP address is set:
     ```bash
