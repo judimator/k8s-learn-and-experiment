@@ -17,7 +17,6 @@ RUN echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-set
         && chmod +x composer.phar && mv composer.phar /usr/bin/composer
 
 COPY conf.d/xdebug.ini $PHP_INI_DIR/conf.d/
-COPY conf.d/php.ini $PHP_INI_DIR/conf.d/
 COPY php-fpm.d/symfony.pool.conf /usr/local/etc/php-fpm.d/symfony.pool.conf
 
 WORKDIR /var/www/app

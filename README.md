@@ -5,15 +5,16 @@
     ```bash
     $ docker-compose build
     ```
-* Install dependencies
-    ```bash
-    $ docker-compose exec php-fpm sh
-    $ composer install
-    ```
 * Run containers
     ```bash
     $ docker-compose up -d
     ```
+* Install dependencies
+    ```bash
+    $ docker-compose exec php-fpm bash
+    $ composer install
+    ```
+
 * Open  **http://symfony.local**
 * Enjoy!
 
